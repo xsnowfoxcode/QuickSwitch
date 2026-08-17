@@ -29,7 +29,10 @@ AddMenuIcon(_title, _icon, _iconNumber := 1, _isToggle := false) {
             Menu, % "ContextMenu", % _isToggle ? "Check" : "UnCheck", % _title
         }
     } catch _ex {
-        LogError("Wrong path to the icon: '" _ex.Extra "'", "icon")
+        LogError("Wrong path to the icon: '" _ex.Extra "'"
+               , "icon"
+               , Format("title={} | iconArg={} | IconsDir={} | ScriptDir={} | WorkingDir={}"
+                      , _title, _icon, IconsDir, A_ScriptDir, A_WorkingDir))
         ShowIcons := false
     }
 }

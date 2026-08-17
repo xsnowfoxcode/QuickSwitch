@@ -277,10 +277,21 @@ ValidateDirectory(_paramName, ByRef path) {
     static shlwapi := DllCall("GetModuleHandle", "str", "Shlwapi", "ptr")
     static IsPath  := DllCall("GetProcAddress", "Ptr", shlwapi, "astr", "PathIsDirectoryW", "ptr")
 
-    ; Filter the path
-    path := Trim(path, " `t\/.")
+    ; Filter the path without trimming the leading UNC separator.
+    path := Trim(path, " `t.")
     path := StrReplace(path, "/" , "\")
     ExpandVariables(path)
+
+    if RegExMatch(path, "^\\\\")
+        path := RTrim(path, "\")
+    else
+        path := Trim(path, "\")
+
+    ; Resolve relative paths against the current app directory.
+    if (path && path != "."
+     && !RegExMatch(path, "i)^[A-Z]:\\")
+     && !RegExMatch(path, "^\\\\"))
+        path := A_ScriptDir "\" path
 
     loop, 2 {
         ; Сheck the correctness of the directory
@@ -388,48 +399,48 @@ ValidateKey(_paramName, _sequence, _prefix := "", _state := "On", _function := "
         
         if (_sequence ~= "i)sc[a-f0-9]+") {
             ; Already converted to Scan Code
-            _key := _sequence
+            _validatedKey := _sequence
         } else if (GetMouseList("isMouse", _sequence)) {
             ; Convert mouse button from friendly to internal name
-            _key := GetMouseList("convertMouse", _sequence)
+            _validatedKey := GetMouseList("convertMouse", _sequence)
         } else if (GetMouseList("isSpecial", _sequence)) {
             ; Don't convert, use hook
-            _key    := _sequence
+            _validatedKey := _sequence
             _prefix := "$"
         } else {
             ; Convert sequence to Scan Code
-            _key := ""
+            _validatedKey := ""
             Loop, parse, _sequence
             {
                 if (!(A_LoopField ~= "[\!\^\+\#<>]")
-                  && _code := GetKeySC(A_LoopField)) {
+                  && _scanCode := GetKeySC(A_LoopField)) {
                     ; Not a modifier, found scancode
-                    _key .= Format("sc{:x}", _code)
+                    _validatedKey .= Format("sc{:x}", _scanCode)
                 } else {
                     ; Don't convert
-                    _key .= A_LoopField
+                    _validatedKey .= A_LoopField
                 }
             }
         }
 
         ; Register new hotkey
-        Hotkey, % _prefix . _key, % _function, % _state        
-        RegisteredKeys[_sequence] := _prefix . _key
+        Hotkey, % _prefix . _validatedKey, % _function, % _state
+        RegisteredKeys[_sequence] := _prefix . _validatedKey
         
         if !_paramName
             return ""
 
         ; Remove old key if it exist
-        IniRead, _old, % INI, % "Global", % _paramName, % A_Space
-        try if (_old && (_old != _key)) {
-            Hotkey, % _prefix . _old, % "Off"
-            Hotkey, % _old, % "Off"
-            LogInfo("Deleted " _old, true)
-            
-            try registeredKeys.Delete(_old)
+        IniRead, _oldValue, % INI, % "Global", % _paramName, % A_Space
+        try if (_oldValue && (_oldValue != _validatedKey)) {
+            Hotkey, % _prefix . _oldValue, % "Off"
+            Hotkey, % _oldValue, % "Off"
+            LogInfo("Deleted " _oldValue, true)
+
+            try registeredKeys.Delete(_oldValue)
         }
 
-        return _paramName "=" _key "`n"
+        return _paramName "=" _validatedKey "`n"
 
     } catch _ex {
         if !_paramName
@@ -438,8 +449,8 @@ ValidateKey(_paramName, _sequence, _prefix := "", _state := "On", _function := "
         LogException(_ex)
 
         ; Return value from config
-        IniRead, _default, % INI, % "Global", % _paramName, % A_Space
-        return _paramName "=" _default "`n"
+        IniRead, _defaultValue, % INI, % "Global", % _paramName, % A_Space
+        return _paramName "=" _defaultValue "`n"
     }
 }
 
@@ -485,30 +496,31 @@ ValidatePinnedPaths(_paramName, ByRef paths, _state := false) {
     ; Returns the number of paths in the array after processing.
     global INI, WritePinnedPaths
 
-    _length := paths.length()
-    if (WritePinnedPaths || !_state && _length) {
+    _pinnedLength := paths.length()
+    _pinnedPaths := ""
+
+    if (WritePinnedPaths || !_state && _pinnedLength) {
         WritePinnedPaths := false
-        _paths := ""
 
-        if _length {
+        if _pinnedLength {
             for _, _arr in GetUniqPaths(paths)
-                _paths .= "|" . _arr[1]
+                _pinnedPaths .= "|" . _arr[1]
 
-            _paths := LTrim(_paths, "|")
+            _pinnedPaths := LTrim(_pinnedPaths, "|")
         }
-        try IniWrite, % _paths, % INI, % "App", % _paramName
+        try IniWrite, % _pinnedPaths, % INI, % "App", % _paramName
 
         if !_state {
             paths := []
             return 0
         }
-        return _length
+        return _pinnedLength
     }
 
-    if (_state && !_length) {
-        IniRead, _paths, % INI, % "App", % _paramName, % A_Space
-        if _paths {
-            loop, parse, _paths, `|
+    if (_state && !_pinnedLength) {
+        IniRead, _pinnedPaths, % INI, % "App", % _paramName, % A_Space
+        if _pinnedPaths {
+            loop, parse, _pinnedPaths, `|
             {
                 paths.push([A_LoopField, "Pin.ico", 1, ""])
             }

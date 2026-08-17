@@ -1,5 +1,7 @@
 Thank you for your interest in **QuickSwitch** project! This document will help you get started, understand the project's priorities, and find where your contribution will have the most impact.
 
+This repository is a GPL-3.0 fork maintained at [xsnowfoxcode/QuickSwitch](https://github.com/xsnowfoxcode/QuickSwitch). Use this fork's issue tracker and pull requests for fork-specific changes; consult [JoyHak/QuickSwitch](https://github.com/JoyHak/QuickSwitch) for upstream history and compatibility context.
+
 <details>
 <summary>Table of Contents</summary>
 
@@ -67,8 +69,8 @@ The following smaller contributions are always appreciated:
 
 Also you can open Issues tracker and focus on the following labels:
 
-- **[Open Bugs](https://github.com/JoyHak/QuickSwitch/issues?q=state%3Aopen%20label%3Abug)** — Real problems reported by users. Fixing these directly improves reliability and is the highest-impact contribution.
-- **[Requested Features](https://github.com/JoyHak/QuickSwitch/issues?q=state%3Aopen%20label%3Afeature)** — Ideas and suggestions. Adding these improves existing functionality and user experience.
+- **[Open Bugs](https://github.com/xsnowfoxcode/QuickSwitch/issues?q=state%3Aopen%20label%3Abug)** — Real problems reported by users. Fixing these directly improves reliability and is the highest-impact contribution.
+- **[Requested Features](https://github.com/xsnowfoxcode/QuickSwitch/issues?q=state%3Aopen%20label%3Afeature)** — Ideas and suggestions. Adding these improves existing functionality and user experience.
 
 When picking an issue:
 1. Read the full issue description and any linked discussions.
@@ -79,14 +81,11 @@ When picking an issue:
 
 QuickSwitch is organized as a main script that `#Include`s files from `Lib` directory. The purpose of each file is described in the [table](Lib/README.md). The project's architecture described in detail and visualized on [DeepWiki](https://deepwiki.com/JoyHak/QuickSwitch), there is also an AI assistant that will instantly answer any question.
 
-You can <a name="contacts">send me a message</a> and I will try to explain everything in detail:
-- <img src="https://raw.githubusercontent.com/JoyHak/QuickSwitch/main/Images/forums/AutoHotkey.svg" width="24" height="24"/> [AutoHotkey](https://www.autohotkey.com/boards/viewtopic.php?f=6&t=102377&sd=d)
-- <img src="https://raw.githubusercontent.com/JoyHak/QuickSwitch/main/Images/forums/Discord.svg" width="24" height="24"/> [Discord](https://discord.com/users/450899199010144267)   
-- <img src="https://raw.githubusercontent.com/JoyHak/QuickSwitch/main/Images/forums/Mail.svg" width="24" height="24"/> [E-mail](mailto:rafaello@disroot.org)   
+For fork-specific questions, use the [fork discussions and issues](https://github.com/xsnowfoxcode/QuickSwitch/discussions). Technical questions about AutoHotkey can be asked in the [official AutoHotkey forum](https://www.autohotkey.com/boards/).
 
 ## How to Contribute
 
-You can send your ideas and changes [directly to me](#contacts).
+You can send your ideas and changes through a [fork issue](https://github.com/xsnowfoxcode/QuickSwitch/issues/new/choose) or pull request.
 
 But if you want to learn about GitHub, you can [start here](https://docs.github.com/ru/get-started/start-your-journey/hello-world).<br><br>
 
@@ -110,7 +109,7 @@ Execute this script in your terminal:
 
 Once you've cloned your repository, follow these steps for each development session (fixing a bug, introducing a new feature, etc.):
 1. **Create a branch** for your work: `fix/dialog-detection-edge-case` or `feat/add-freecommander-support`.
-2. **Make your changes** and test them manually by running the main [QuickSwitch-1.9.ahk](QuickSwitch-1.9.ahk) script.
+2. **Make your changes** and test them manually by running the main [QuickSwitch-1.9.1.ahk](QuickSwitch-1.9.1.ahk) script.
 3. **Check `Errors.log`** in the root directory after testing — it records all exceptions caught by `LogException()` in [Log](Lib/Log.ahk).
 4. **Check Menu**, all paths must work correctly. Press `Ctrl+Shift+Win+0` or **Alt + \`** (backtick or `~` tilde) to display the Menu everywhere.
 > You can tweak pre-display actions and `Restart` hotkey on `Settings > App` tab. If you're working on the [Settings UI](Lib/SettingsFrontend.ahk), check `Show settings after restart`.
