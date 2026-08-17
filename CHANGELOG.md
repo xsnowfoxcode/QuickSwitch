@@ -3,6 +3,9 @@
 ## v1.9.1 - 2026-08-17
 
 - Fixed directory validation so UNC paths keep their leading `\\` and can be used by AutoSwitch and clipboard/favorite path sources.
+- Fixed the final Explorer navigation path normalization so quoted UNC paths keep both leading backslashes.
+- Restored the UNC prefix when decoding Explorer `file://server/share` locations.
+- Added regression coverage for Explorer navigation normalization and file URLs.
 - Preserved the existing fork improvements for Explorer `file://` URL decoding, relative-directory resolution, path quoting, diagnostics, and the Chinese settings interface.
 - Added Chinese usage, upstream/license, and build/release documentation.
 - Release archives are distributed through the fork's GitHub Release and verified with SHA-256 digests.
