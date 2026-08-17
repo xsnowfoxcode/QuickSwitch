@@ -184,14 +184,16 @@ GetFavoritePaths(ByRef paths) {
 ;
 GetUniqPaths(paths) {
 ;─────────────────────────────────────────────────────────────────────────────
-    _seen := {}
-    _paths := []
+    _uniqSeen := {}
+    _uniqPaths := []
+    _uniqPath := ""
+
     for _, _arr in paths {
-        _path := _arr[1]
-        if !_seen.hasKey(_path) {
-            _paths.push(_arr)
-            _seen[_path] := true
+        _uniqPath := _arr[1]
+        if !_uniqSeen.hasKey(_uniqPath) {
+            _uniqPaths.push(_arr)
+            _uniqSeen[_uniqPath] := true
         }
     }
-    return _paths
+    return _uniqPaths
 }

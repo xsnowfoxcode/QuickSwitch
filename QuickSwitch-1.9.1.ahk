@@ -1,4 +1,4 @@
-;@Ahk2Exe-SetDescription https://github.com/JoyHak/QuickSwitch
+;@Ahk2Exe-SetDescription https://github.com/xsnowfoxcode/QuickSwitch
 ;@Ahk2Exe-SetProductName QuickSwitch
 ;@Ahk2Exe-SetMainIcon Icons\QuickSwitch.ico
 ;@Ahk2Exe-SetCopyright Rafaello
@@ -8,6 +8,7 @@
 
 #Requires AutoHotkey v1.1.37.02 Unicode
 #Warn
+#Warn LocalSameAsGlobal, Off
 #NoEnv
 #Persistent
 #SingleInstance force
@@ -21,6 +22,9 @@ Process, % "Priority", , % "A"
 FileEncoding, % "UTF-8"
 SetWorkingDir, % A_ScriptDir
 CoordMode, % "Menu", % "Screen"
+
+if InStr(StrGet(DllCall("GetCommandLine", "ptr")), "/iLib ")
+    ExitApp
 
 ScriptName := "QuickSwitch"
 INI        := ScriptName ".ini"
@@ -49,13 +53,18 @@ ErrorsLog  := "Errors.log"
 
 InitLog()
 SetDefaultValues()
+LogRuntimeContext("startup-defaults")
 
 if IsFile(INI)
     ReadValues()
 else
     WriteValues()
 
+LogInfo(Format("[post-read] IconsDir={} | FavoritesDir={} | MainIcon={}"
+             , IconsDir, FavoritesDir, MainIcon), true)
+
 ValidateTrayIcon("MainIcon",    MainIcon)
+InitTrayMenu()
 ValidateKey(     "PinKey",      PinKey,      "",   "Off",  "Dummy")  ; Init and dont use this key
 ValidateKey(     "MainKey",     MainKey,     "",   "Off",  "ShowMenu")
 

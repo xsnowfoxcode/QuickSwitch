@@ -66,19 +66,21 @@ SendPath(path) {
     WinGet, _id,  % "id", % "A"
     WinGet, _exe, % "ProcessPath", % "A"
     WinGetClass, _class, % "A"
+    _quotedExe := """" _exe """"
     path := """" path """"
 
     switch (_class) {
         case "CabinetWClass":
             SendExplorerPath(_id, path)
         case "ThunderRT6FormDC":
-            Run, % _exe " /feed=|::goto " path ";|"
+            Run, % _quotedExe " /feed=|::goto " path ";|"
         case "dopus.lister":
-            Run, % _exe "\..\dopusrt.exe /acmd go " path
+            SplitPath, _exe,, _exeDir
+            Run, % """" _exeDir "\..\dopusrt.exe"" /acmd go " path
         case "TTOTAL_CMD":
-            Run, % _exe " /O /S /L=" path
+            Run, % _quotedExe " /O /S /L=" path
         default:
-            Run, % _exe " " path
+            Run, % _quotedExe " " path
     }
 }
 

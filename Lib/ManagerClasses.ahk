@@ -9,6 +9,49 @@ GroupAdd, ManagerClasses, ahk_class CabinetWClass
 GroupAdd, ManagerClasses, ahk_class ThunderRT6FormDC
 GroupAdd, ManagerClasses, ahk_class dopus.lister
 
+AppendDecodedBytes(ByRef _text, ByRef _array) {
+    if !_array.Length()
+        return
+
+    VarSetCapacity(_buffer, _array.Length(), 0)
+    for _i, _byte in _array
+        NumPut(_byte, _buffer, _i - 1, "UChar")
+
+    _text .= StrGet(&_buffer, _array.Length(), "UTF-8")
+    _array := []
+}
+
+DecodeLocationURL(_url) {
+    if !_url
+        return ""
+
+    _path := RegExReplace(_url, "i)^file:/+")
+    _path := StrReplace(_path, "/", "\")
+    _decoded := ""
+    _bytes := []
+    _index := 1
+    _length := StrLen(_path)
+
+    while (_index <= _length) {
+        _char := SubStr(_path, _index, 1)
+        if (_char = "%") {
+            _hex := SubStr(_path, _index + 1, 2)
+            if (_hex ~= "i)^[0-9A-F]{2}$") {
+                _bytes.Push("0x" _hex)
+                _index += 3
+                continue
+            }
+        }
+
+        AppendDecodedBytes(_decoded, _bytes)
+        _decoded .= _char
+        _index++
+    }
+    AppendDecodedBytes(_decoded, _bytes)
+
+    return Trim(_decoded, " `t/\")
+}
+
 CabinetWClass(ByRef winId, ByRef paths, _activeTabOnly := false, _showLockedTabs := false) {
     ; Analyzes open Explorer windows (tabs) and looks for non-virtual paths
     ; Returns number of added paths
@@ -55,13 +98,10 @@ CabinetWClass(ByRef winId, ByRef paths, _activeTabOnly := false, _showLockedTabs
                 }
             }
 
-            ; Get current path                        
+            ; Get current path
             _path := ""
-            if _win.locationURL {                
-                _path := SubStr(_win.locationURL, 9)  ; remove "file:///"
-                _path := StrReplace(_path, "/", "\")
-                _path := StrReplace(_path, "%20", " ")
-                _path := Trim(_path, " `t/\")
+            if _win.locationURL {
+                _path := DecodeLocationURL(_win.locationURL)
             }
             if !_path {
                 if (_active = _count)

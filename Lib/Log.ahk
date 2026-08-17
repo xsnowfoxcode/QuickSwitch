@@ -66,7 +66,7 @@ LogHeader() {
     ; Header with information about OS and script
     global ErrorsLog
 
-    static REPORT_LINK := "https://github.com/JoyHak/QuickSwitch/issues/new?template=bug-report.yaml"
+    static REPORT_LINK := "https://github.com/xsnowfoxcode/QuickSwitch/issues/new/choose"
     static NT_VERSION  := "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion"
 
     _name    := A_OSType
@@ -144,4 +144,14 @@ InitLog() {
                , "Log init"
                , _ex.what " " _ex.message " " _ex.extra)
     }
+}
+
+LogRuntimeContext(_tag := "runtime") {
+    global INI, ErrorsLog
+
+    _iniPath := A_WorkingDir "\" INI
+    _exists := IsFile(_iniPath) ? "yes" : "no"
+
+    LogInfo(Format("[{}] ScriptFullPath={} | ScriptDir={} | WorkingDir={} | INI={} | INI exists={}"
+                 , _tag, A_ScriptFullPath, A_ScriptDir, A_WorkingDir, _iniPath, _exists), true)
 }

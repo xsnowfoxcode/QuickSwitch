@@ -13,18 +13,19 @@
 <a href="https://www.voidtools.com/forum/viewtopic.php?t=9881&sd=d">
 <img src="https://img.shields.io/badge/Everything-orange?style=for-the-badge&logo=startpage&logoColor=ff8000&color=6c4028" alt="Everything"></a>
 <br>Installation sources<br>
-<a href="https://wingetgui.com/apps/JoyHak-QuickSwitch">
-<img src="https://img.shields.io/winget/v/JoyHak.QuickSwitch?style=for-the-badge" alt="WinGet"></a>
-<a href="https://push.chocolatey.org/packages/quickswitch">
-<img src="https://img.shields.io/chocolatey/v/quickswitch?style=for-the-badge" alt="Chocolatey"></a>
-<a href="#installation">
-<img src="https://raw.githubusercontent.com/JoyHak/QuickSwitch/main/Images/badges/Download.svg" alt="Download"></a>
+<a href="https://github.com/xsnowfoxcode/QuickSwitch/releases/latest">
+<img src="https://raw.githubusercontent.com/JoyHak/QuickSwitch/main/Images/badges/Download.svg" alt="Download from GitHub Releases"></a>
 <br>Quick help<br>
-<a href="https://github.com/JoyHak/QuickSwitch/discussions/new/choose">
-<img src="https://img.shields.io/github/discussions-search?query=repo%3AJoyHak%2FQuickSwitch%20is%3Aopen&style=flat&logo=TheConversation&logoColor=white&label=Ask%20Question" alt="Discussions"></a>
-<a href="https://github.com/JoyHak/QuickSwitch/issues/new?template=bug-report.yaml">
-<img src="https://img.shields.io/github/issues-search?query=repo%3AJoyHak%2FQuickSwitch%20is%3Aopen%20label%3Abug&style=flat&logo=ghostery&logoColor=white&label=New%20Bug&color=fdc12c" alt="NewBug"></a>
+<a href="https://github.com/xsnowfoxcode/QuickSwitch/discussions/new/choose">
+<img src="https://img.shields.io/github/discussions-search?query=repo%3Axsnowfoxcode%2FQuickSwitch%20is%3Aopen&style=flat&logo=TheConversation&logoColor=white&label=Ask%20Question" alt="Discussions"></a>
+<a href="https://github.com/xsnowfoxcode/QuickSwitch/issues/new/choose">
+<img src="https://img.shields.io/github/issues-search?query=repo%3Axsnowfoxcode%2FQuickSwitch%20is%3Aopen%20label%3Abug&style=flat&logo=ghostery&logoColor=white&label=New%20Bug&color=fdc12c" alt="NewBug"></a>
 </div>
+
+> [!NOTE]
+> This is a community-maintained GPL-3.0 fork of [JoyHak/QuickSwitch](https://github.com/JoyHak/QuickSwitch). The fork keeps the original attribution and license while adding local fixes and documentation. See [upstream and license notes](docs/上游与许可证.md).
+
+The current fork release is `v1.9.1`. It includes a fix for UNC paths such as `\\server\share\QuickSwitch-main`, which must retain both leading backslashes for automatic navigation.
 
 Imagine you want to open/save a file. A dialog box will appear and you will need to manually search for the target folder. QuickSwitch can open it instantly:
 ![](/Images/menu.gif)
@@ -42,57 +43,16 @@ And of course you can customize the Menu:<br>
 Now you can install QuickSwitch or [explore](#appearance) advanced customization options!
 
 ## Installation
-<a href="https://github.com/JoyHak/QuickSwitch/releases/latest">
-<img src="https://img.shields.io/github/v/release/JoyHak/QuickSwitch?display_name=tag&style=flat" alt="Release"></a>
-<a href="https://github.com/JoyHak/QuickSwitch/releases/latest">
-<img src="https://img.shields.io/github/downloads/Joyhak/QuickSwitch/total?style=flat&color=fb9233" alt="Downloads"></a>
+<a href="https://github.com/xsnowfoxcode/QuickSwitch/releases/latest">
+<img src="https://img.shields.io/github/v/release/xsnowfoxcode/QuickSwitch?display_name=tag&style=flat" alt="Release"></a>
+<a href="https://github.com/xsnowfoxcode/QuickSwitch/releases/latest">
+<img src="https://img.shields.io/github/downloads/xsnowfoxcode/QuickSwitch/total?style=flat&color=fb9233" alt="Downloads"></a>
 <br><br>
 
-You can install and upgrade QuickSwitch automatically through package manager or [download it manually](#manual-installation).
-```ahk
-winget install JoyHak.QuickSwitch
-```
-
-<details>
-  <summary>
-    <a name="winget" href="https://learn.microsoft.com/en-us/windows/package-manager">
-      winget
-    </a>
-  </summary>
-
-```powershell
-winget install JoyHak.QuickSwitch
-winget upgrade JoyHak.QuickSwitch
-winget uninstall JoyHak.QuickSwitch
-```
-
-</details>
-
-<details>
-  <summary>
-    <a name="chocolatey" href="https://docs.chocolatey.org/en-us/why">
-      chocolatey
-    </a>
-  </summary>
-
-```powershell
-choco install quickswitch
-choco upgrade quickswitch
-choco uninstall quickswitch
-```
-
-</details>
-
-\* <a name="scoop" href="https://github.com/ScoopInstaller/Scoop/wiki/So-What">
-      scoop
-    </a>
-
-> We need more than 100⭐ GitHub stars to satisfy the [Scoop package requirements](https://github.com/ScoopInstaller/Extras/discussions/11588#discussioncomment-6454332).
-
-After installation press `Win+R` or `Win+Q`, type `QuickSwitch` and press `Enter` to launch installed package.
+This fork currently distributes checksum-verifiable archives through its [GitHub Releases](https://github.com/xsnowfoxcode/QuickSwitch/releases). Package-manager commands for `JoyHak.QuickSwitch` install the upstream project and are intentionally not presented as fork installation commands.
 
 ### Manual installation
-1. [Download](https://github.com/JoyHak/QuickSwitch/releases/latest) the latest x64 or x32 archive depending on your system architecture. If you don't know it, start with the x64 version. *It is not recommended to run the x32 version on an x64 machine!*
+1. [Download](https://github.com/xsnowfoxcode/QuickSwitch/releases/latest) the latest x64 or x32 archive depending on your system architecture. If you don't know it, start with the x64 version. *It is not recommended to run the x32 version on an x64 machine!*
 2. Create a directory named `QuickSwitch`, copy downloaded archive here and select "extract here" from the context menu. Follow the same steps to update the app. The `.ini` configuration will never be replaced. 
 3. Run `QuickSwitch.exe`. Open some tabs in a supported file manager or create `.lnk` files in `.\Favorites`.
 4. Open any application and try to open\save a file using it. E.g., open `Notepad` then `File - Open...` (or press `Ctrl+Shift+S`).
@@ -232,7 +192,7 @@ You can select keys or mouse buttons on `Settings > App` tab. You can even selec
 
 ## Feedback
 
-**I really need your feedback!** If something is not working for you, please [let me know](https://github.com/JoyHak/QuickSwitch/issues/new?template=bug-report.yaml). If you think that app can be improved, [write to me](https://github.com/JoyHak/QuickSwitch/issues/new?template=feature-request.yaml) or read the [contribution guide](CONTRIBUTING.md).
+**Feedback and bug reports:** please use the [fork issue tracker](https://github.com/xsnowfoxcode/QuickSwitch/issues/new/choose), or read the [contribution guide](CONTRIBUTING.md).
 
 <a name="enforce-menu"></a>
 You can enforce the Menu in any application using the keyboard shortcut: `Ctrl+Shift+Win+0`. You can use this feature to change the path in any application, including supported file manager.
@@ -287,7 +247,7 @@ Optional `7zG.exe` to create an archives with the required files: https://7-zip.
 
 </details>
 
-To build the application, clone or [download this repository](https://github.com/JoyHak/QuickSwitch/archive/refs/heads/main.zip). Open the [.\Utilities\Build.ahk](/Utilities/Build.ahk) file and assign the necessary values to the variables. You can also leave the default values. In this case, the build script will automatically find the interpreter regardless of its installation path. Detailed documentation on which values to specify is provided in the [script comments](/Utilities/Build.ahk).
+To build the application, clone or [download this repository](https://github.com/xsnowfoxcode/QuickSwitch/archive/refs/heads/main.zip). Open the [`.\Utilities\Build.ahk`](Utilities/Build.ahk) file and assign the necessary values to the variables. The fork-specific build and release procedure is documented in [维护与发布](docs/维护与发布.md).
 
 > [!NOTE]
 > The builder is designed for different AHK apps regardless of their interpreter. It will automatically select the interpreter based on the app name and its directory, so **you can use it in your AHK projects**. Unnecessary dependencies can be disabled by commenting out variables with paths to different applications.
