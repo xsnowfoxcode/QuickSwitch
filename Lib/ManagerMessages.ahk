@@ -13,11 +13,25 @@ SendMessage(ByRef winId, _message := 74, ByRef wParam := 0, ByRef lParam := 0) {
     }
 }
 
+NormalizeExplorerPath(_path) {
+    ; Remove the quotes added for file-manager command lines without touching UNC prefixes.
+    _path := Trim(_path)
+    if (SubStr(_path, 1, 1) = Chr(34))
+        _path := SubStr(_path, 2)
+    if (SubStr(_path, StrLen(_path), 1) = Chr(34))
+        _path := SubStr(_path, 1, StrLen(_path) - 1)
+
+    _path := StrReplace(_path, "/", "\")
+    if RegExMatch(_path, "^\\\\")
+        return RTrim(_path, "\")
+    return Trim(_path, "\")
+}
+
 SendExplorerPath(ByRef winId, ByRef path) {
     try {
         for _win in ComObjCreate("Shell.Application").windows {
             if (winId = _win.hwnd) {
-                _win.Navigate(Trim(path, " ""\/"))
+                _win.Navigate(NormalizeExplorerPath(path))
                 break
             }
         }

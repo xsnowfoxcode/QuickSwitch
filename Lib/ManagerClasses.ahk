@@ -49,7 +49,15 @@ DecodeLocationURL(_url) {
     }
     AppendDecodedBytes(_decoded, _bytes)
 
-    return Trim(_decoded, " `t/\")
+    _decoded := Trim(_decoded, A_Space . A_Tab)
+    if !_decoded
+        return ""
+
+    ; file://server/share is decoded without its URI prefix, so restore the UNC prefix.
+    if !RegExMatch(_decoded, "i)^[A-Z]:\\") && !RegExMatch(_decoded, "^\\\\")
+        _decoded := "\\" _decoded
+
+    return RTrim(_decoded, "\")
 }
 
 CabinetWClass(ByRef winId, ByRef paths, _activeTabOnly := false, _showLockedTabs := false) {

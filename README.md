@@ -25,7 +25,7 @@
 > [!NOTE]
 > This is a community-maintained GPL-3.0 fork of [JoyHak/QuickSwitch](https://github.com/JoyHak/QuickSwitch). The fork keeps the original attribution and license while adding local fixes and documentation. See [upstream and license notes](docs/上游与许可证.md).
 
-The current fork release is `v1.9.1`. It includes a fix for UNC paths such as `\\server\share\QuickSwitch-main`, which must retain both leading backslashes for automatic navigation.
+The current fork release is `v1.9.1`. It preserves both leading backslashes for UNC paths such as `\\server\share\QuickSwitch-main` throughout validation, Explorer URL decoding, and automatic navigation.
 
 Imagine you want to open/save a file. A dialog box will appear and you will need to manually search for the target folder. QuickSwitch can open it instantly:
 ![](/Images/menu.gif)
