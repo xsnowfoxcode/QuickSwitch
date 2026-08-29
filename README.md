@@ -1,7 +1,7 @@
-<div align="center">    
+<div align="center">
 <a href="#installation">
 <img src="https://raw.githubusercontent.com/JoyHak/QuickSwitch/main/Images/banner-wide.png"></a>
-<br>Forum threads<br>
+<br>相关讨论<br>
 <a href="https://www.autohotkey.com/boards/viewtopic.php?f=6&t=102377&sd=d">
 <img src="https://raw.githubusercontent.com/JoyHak/QuickSwitch/main/Images/badges/AutoHotkey.svg" alt="AutoHotkey"></a>
 <a href="https://www.xyplorer.com/xyfc/viewtopic.php?t=28304&sd=d">
@@ -12,272 +12,198 @@
 <img src="https://raw.githubusercontent.com/JoyHak/QuickSwitch/main/Images/badges/DirectoryOpus.svg" alt="DirectoryOpus"></a>
 <a href="https://www.voidtools.com/forum/viewtopic.php?t=9881&sd=d">
 <img src="https://img.shields.io/badge/Everything-orange?style=for-the-badge&logo=startpage&logoColor=ff8000&color=6c4028" alt="Everything"></a>
-<br>Installation sources<br>
+<br>安装包<br>
 <a href="https://github.com/xsnowfoxcode/QuickSwitch/releases/latest">
-<img src="https://raw.githubusercontent.com/JoyHak/QuickSwitch/main/Images/badges/Download.svg" alt="Download from GitHub Releases"></a>
-<br>Quick help<br>
+<img src="https://raw.githubusercontent.com/JoyHak/QuickSwitch/main/Images/badges/Download.svg" alt="从 GitHub Releases 下载"></a>
+<br>快速帮助<br>
 <a href="https://github.com/xsnowfoxcode/QuickSwitch/discussions/new/choose">
-<img src="https://img.shields.io/github/discussions-search?query=repo%3Axsnowfoxcode%2FQuickSwitch%20is%3Aopen&style=flat&logo=TheConversation&logoColor=white&label=Ask%20Question" alt="Discussions"></a>
+<img src="https://img.shields.io/github/discussions-search?query=repo%3Axsnowfoxcode%2FQuickSwitch%20is%3Aopen&style=flat&logo=TheConversation&logoColor=white&label=Ask%20Question" alt="讨论区"></a>
 <a href="https://github.com/xsnowfoxcode/QuickSwitch/issues/new/choose">
-<img src="https://img.shields.io/github/issues-search?query=repo%3Axsnowfoxcode%2FQuickSwitch%20is%3Aopen%20label%3Abug&style=flat&logo=ghostery&logoColor=white&label=New%20Bug&color=fdc12c" alt="NewBug"></a>
+<img src="https://img.shields.io/github/issues-search?query=repo%3Axsnowfoxcode%2FQuickSwitch%20is%3Aopen%20label%3Abug&style=flat&logo=ghostery&logoColor=white&label=New%20Bug&color=fdc12c" alt="提交问题"></a>
 </div>
 
-> [!NOTE]
-> This is a community-maintained GPL-3.0 fork of [JoyHak/QuickSwitch](https://github.com/JoyHak/QuickSwitch). The fork keeps the original attribution and license while adding local fixes and documentation. See [upstream and license notes](docs/上游与许可证.md).
+## 项目简介
 
-The current fork release is `v1.9.1`. It preserves both leading backslashes for UNC paths such as `\\server\share\QuickSwitch-main` throughout validation, Explorer URL decoding, and automatic navigation.
+QuickSwitch 是一个用于 Windows 文件打开/保存对话框的快速路径切换工具。它可以收集资源管理器和常用文件管理器中的已打开目录，让你在其他应用的文件对话框中快速跳转，而不必重复浏览目录。
 
-Imagine you want to open/save a file. A dialog box will appear and you will need to manually search for the target folder. QuickSwitch can open it instantly:
-![](/Images/menu.gif)
+本项目基于 [JoyHak/QuickSwitch](https://github.com/JoyHak/QuickSwitch) 开源项目进行维护，保留原项目功能、版权声明和 GPL-3.0 许可证，并将界面与使用说明调整为简体中文，同时补充本地化修复、文档和发布流程。上游来源及许可证信息请参阅[上游与许可证说明](docs/上游与许可证.md)。
 
-Open any tabs in supported file managers: File Explorer, Directory Opus, Total Commander, XYplorer. All opened tabs will be available in the Menu for switching, press `Ctrl+Q` to open the Menu. [Pin and save your favorite paths](#menu-sections) and [open them later](#enforce-menu) in any file manager or application.
+当前版本为 `v1.9.1`。此版本修复了 UNC 网络共享路径在处理过程中丢失开头两个反斜杠的问题，例如：`\\10.0.99.201\QuickSwitch-main`。修复覆盖路径校验、资源管理器 URL 解码和自动跳转流程。
 
-Enable "AutoSwitch" option to automatically change path in file dialog:
+### 主要功能
 
-![](/Images/autoswitch.gif)
+- 在文件打开/保存对话框中快速切换目录。
+- 支持 Windows 资源管理器、Directory Opus、Total Commander 和 XYplorer 等文件管理器。
+- 使用 `Ctrl+Q` 打开路径菜单，使用 `Ctrl+Shift+Win+0` 在任意应用中强制打开菜单。
+- 支持固定路径、剪贴板路径和收藏路径。
+- 支持 AutoSwitch，在文件对话框打开时自动切换到合适的目录。
+- 简体中文界面，并保留必要的 Windows、AutoHotkey 和文件管理器名称。
+- 支持本地磁盘路径、相对路径以及 `\\server\share` 形式的 UNC 网络路径。
 
-And of course you can customize the Menu:<br>
+假设你正在打开或保存文件，QuickSwitch 可以直接显示最近使用的目录：
 
-<img src="/Images/settings.gif" width=720>
+![](Images/menu.gif)
 
-Now you can install QuickSwitch or [explore](#appearance) advanced customization options!
+在支持的文件管理器中打开几个标签页后，按 `Ctrl+Q` 即可在菜单中切换这些路径。你也可以[固定和保存常用路径](#menu-sections)，稍后在其他文件管理器或应用中打开。
 
-## Installation
+启用“AutoSwitch”后，文件对话框可以自动切换路径：
+
+![](Images/autoswitch.gif)
+
+菜单的样式、快捷键和显示方式也可以按需调整：
+
+<img src="Images/settings.gif" width=720>
+
+## 安装
+
+<a name="installation"></a>
 <a href="https://github.com/xsnowfoxcode/QuickSwitch/releases/latest">
-<img src="https://img.shields.io/github/v/release/xsnowfoxcode/QuickSwitch?display_name=tag&style=flat" alt="Release"></a>
+<img src="https://img.shields.io/github/v/release/xsnowfoxcode/QuickSwitch?display_name=tag&style=flat" alt="版本"></a>
 <a href="https://github.com/xsnowfoxcode/QuickSwitch/releases/latest">
-<img src="https://img.shields.io/github/downloads/xsnowfoxcode/QuickSwitch/total?style=flat&color=fb9233" alt="Downloads"></a>
-<br><br>
+<img src="https://img.shields.io/github/downloads/xsnowfoxcode/QuickSwitch/total?style=flat&color=fb9233" alt="下载量"></a>
 
-This fork currently distributes checksum-verifiable archives through its [GitHub Releases](https://github.com/xsnowfoxcode/QuickSwitch/releases). Package-manager commands for `JoyHak.QuickSwitch` install the upstream project and are intentionally not presented as fork installation commands.
+本 Fork 通过 [GitHub Releases](https://github.com/xsnowfoxcode/QuickSwitch/releases) 提供可校验的压缩包。请从本 Fork 的 Release 下载，不要使用 `JoyHak.QuickSwitch` 等上游包管理器命令，因为它们安装的是原项目版本。
 
-### Manual installation
-1. [Download](https://github.com/xsnowfoxcode/QuickSwitch/releases/latest) the latest x64 or x32 archive depending on your system architecture. If you don't know it, start with the x64 version. *It is not recommended to run the x32 version on an x64 machine!*
-2. Create a directory named `QuickSwitch`, copy downloaded archive here and select "extract here" from the context menu. Follow the same steps to update the app. The `.ini` configuration will never be replaced. 
-3. Run `QuickSwitch.exe`. Open some tabs in a supported file manager or create `.lnk` files in `.\Favorites`.
-4. Open any application and try to open\save a file using it. E.g., open `Notepad` then `File - Open...` (or press `Ctrl+Shift+S`).
-5. Press `Ctrl+Q` and look at the paths in the Menu that opens. All directories opened in supported file managers will be displayed here.
-6. Explore the available options in the _"Menu settings"_ and experiment with them. Choose a convenient style and logic of the menu!
+### 手动安装
 
-![installation video](Images/installation.avif)
+1. 根据系统架构下载最新的 [x64 或 x32 压缩包](https://github.com/xsnowfoxcode/QuickSwitch/releases/latest)。不确定时通常先选择 x64；不要在 x64 系统上无必要地使用 x32 版本。
+2. 新建一个固定目录，例如 `C:\QuickSwitch`，将压缩包解压到该目录。升级时直接覆盖程序文件即可，已有 `.ini` 配置不会被替换。
+3. 运行 `QuickSwitch.exe`，然后在支持的文件管理器中打开几个目录；也可以在 `Favorites` 目录中创建 `.lnk` 快捷方式。
+4. 打开记事本或其他应用的文件打开/保存对话框，例如“文件 - 打开”。
+5. 按 `Ctrl+Q` 打开菜单，检查已打开的目录是否显示。
+6. 在“菜单设置”中按需调整菜单样式、快捷键和路径显示方式。
 
-## Appearance
-### Short path
-Any path can shortened to a specified number of directories with limited name length. For example, enter number `2` in the `Number of dirs` field on the `ShortPath` tab. If the path to the menu will contain more than 2 directories (`C:\Windows\System32\Resources`), it will be shortened to 2 directories: `System32\Resources`
+![安装示例](Images/installation.avif)
 
-> [!NOTE]
-> By default `ShortPath` cuts the beginning of the path. Option `Shorten the end` cuts the end of the path.
+## 外观与路径显示
 
-Enter number `3` in the `Length of dir names` field on the same tab to limit the length of each directory in the path to 3 symbols: `Sys..\Res..`. Increase this number to see their full names.
+<a name="appearance"></a>
 
-Also you can include the disk letter at the beginning or change the separator between directories to anything, e.g. tilda `~`: `W:~Windows~System32`
+### 缩短路径
 
-The first letter of the path (or selected tilda `~`) will be <ins>underlined</ins> in the menu if `Menu > Paths numbers with shortcuts` option is turned off _or_ the number of paths in the Menu is greater than 9. Press the <ins>underlined</ins> letter or symbol on your keyboard to activate this path in the menu and change file dialog path (see more about keys [here](#keyboard)).
+在“设置 > 短路径”中，可以设置显示的目录层数和每个目录名称的最大长度。例如，将“目录层数”设置为 `2`，路径 `C:\Windows\System32\Resources` 可以缩短为 `System32\Resources`；将“目录名称长度”设置为 `3`，则可以显示为 `Sys..\Res..`。
 
-<details><summary>Underlined letters examples</summary>
+你还可以显示盘符、修改目录分隔符，或选择缩短路径的开头/结尾。菜单中的下划线字母可以直接作为快捷键，例如 `C̲:\Windows` 按 `C` 即可选择该路径。
 
-C̲:\Windows – press `C` to activate this path and change file dialog path.
+<details><summary>下划线快捷键示例</summary>
 
-W̲indows\System32 – press `W` to activate this path.
+`C̲:\Windows`：按 `C` 选择路径。<br>
+`W̲indows\System32`：按 `W` 选择路径。<br>
+`.̲.̲Windows`：按 `.` 选择路径。<br>
+`~̲Windows`：按 `~` 选择路径。
 
-.̲.̲Windows – press `.` to activate this path.
-
-~̲Windows – press `~` to activate this path.
- 
 </details>
 
-The path shortening settings on the `ShortPath`‬ tab allows you to completely change a path structure. Experiment with this settings to change which letter will be underlined in your Menu.
+### 菜单分区
 
-#### Menu sections
-In addition to the paths from the file managers, you can enable special paths on `Settings > Theme` tab.
+<a name="menu-sections"></a>
+
+除了文件管理器中的路径，还可以在“设置 > 外观”中启用置顶路径、剪贴板目录和收藏夹。
+
 <a name="pinned"></a>
-<details><summary>Pinned paths (that are always visible)</summary> 
+<details><summary>固定路径（始终显示）</summary>
 
-If you want some paths to appear permanently in the Menu, you can pin them. To do this, enable the `Settings > Theme > Show pinned paths`  option and select a key or mouse button at  `Settings > App > Pin path...`. Close the settings and open the Menu. Hold down the selected key and left click on any path. Now it is pinned and it will be stored in the configuration. You will see this path on every restart. 
+启用“设置 > 外观 > 置顶路径”，再到“设置 > 应用 > 置顶路径”选择固定路径的按键或鼠标按钮。打开菜单后按住该键并单击路径，即可将路径固定到配置中，之后每次启动都会显示。
 
-If you turn this option *off*, the pinned paths will no longer be displayed. If you turn this option *on* again, all pinned paths will be displayed again. If you want to delete all pinned paths, check `Settings > Reset > Delete favorite paths` and press `Enter`.
-
-If you want to see the duplicate paths disable the `Settings > Menu > Delete duplicate paths` option *(e.g. if you have a pinned path, but also want to quickly find it visually in the Menu by file manager icon)*.
+关闭显示选项只会暂时隐藏置顶路径；重新启用后仍会显示。若要删除所有置顶路径，可在“设置 > 重置 > 置顶路径”中确认删除。
 
 </details>
+
 <a name="clipboard"></a>
-<details><summary>Paths from clipboard (temporary, for a single file dialog)</summary> 
+<details><summary>剪贴板路径（临时显示）</summary>
 
-You can copy any file or directory path (or any [variable](#variables)) and it will appear in the Menu. All copied paths will remain in the Menu until you open the file dialog in another application. If you want some paths to appear permanently, pin them.
+复制文件或目录路径后，路径会显示在菜单中，并持续到你在另一个应用中打开新的文件对话框。若希望长期保留，请改为置顶路径。
 
-<img width="616" height="683" alt="Clipboard" src="https://github.com/user-attachments/assets/0014e6fc-74df-4936-b683-9c35a2d95068" />
-
-Copied paths will not disappear if you enforce the Menu to appear using [`Ctrl+Shift+Win+0`](#enforce-menu). It can help you to open the copied paths in multiple applications. If you copy the path to a file, QuickSwitch will use the directory with that file by removing everything after the last slash `\`.
-
-<img width="614" height="593" alt="clipboard2" src="https://github.com/user-attachments/assets/09237a63-2264-4050-9a8c-b0501536fd27" />
-
-The option works in the background and analyzes the clipboard for the presence of a path when changing it. If several paths separated by line breaks (multi-line text) have been copied, they will be added to the Menu individually. 
-
-Background analysis is temporarily disabled when requesting paths from other file managers *(if the `Settings > Theme > Show file managers paths` option is enabled)*, as their data is exchanged via the clipboard. If the request takes a very long time *(e.g., QuickSwitch creates the configuration for Total Commander)*, clipboard analysis will be turned off until all paths are fully received.
+如果复制的是文件，QuickSwitch 会去掉最后一个反斜杠后的文件名，只使用文件所在目录。使用 `Ctrl+Shift+Win+0` 强制打开菜单时，剪贴板路径仍会保留，便于在多个应用中使用。
 
 </details>
-<details><summary>Favorite paths (with customizable icons and names)</summary>  
 
 <a name="favorites"></a>
+<details><summary>收藏路径（可自定义图标和名称）</summary>
 
-If you have many paths and you want to change how they are displayed in the Menu, enable the `Settings > Theme > Show favorite paths` option. This option works with `.lnk` shortcuts (links). In the input field next to it, enter the directory from which the shortcuts will be taken. You can use [variables](#variables).
+启用“设置 > 外观 > 收藏夹”，并指定存放 `.lnk` 快捷方式的目录。QuickSwitch 会递归读取其中的快捷方式；快捷方式的目标路径、`Start in`、注释和图标都会影响菜单中的显示效果。
 
-Press `Enter` and open specified directory. [Create .lnk shortcut](https://www.thewindowsclub.com/create-desktop-shortcut-windows-10) to any directory or file. If the shortcut points to a file, its location will be shown in the Menu. Right click on created shortcut, select "properties" and click on the "shortcut" tab. 
-
-<img width="1920" height="1920" alt="properties" src="https://github.com/user-attachments/assets/ec65e78b-26cb-4989-a71b-a14c6ea964bf" />
-
-You will see editable fields that will directly affect the display of the shortcut in QuickSwitch:
-- Target
-- Start in (working dir.)
-- Comment
-- Change icon (button)
-
-The "target" field is the main path you will see. The "start in" field will only be used if the "target" field is empty. Even if the "target" points to a file, QuickSwitch will use the file directory by removing everything after the last slash `\`. You can change the displayed path and give it any name you want in the "comment" field. This field takes precedence over displaying the full or short path (`Settings > Short path`). All fields support [variables](#variables).
-
-Let's put the `ScriptName` variable in the "comment" field. The Menu will show the internal QuickSwitch name for the shortcut named "MyFavoritePath". 
-
-<img width="1101" height="946" alt="shell32 example" src="https://github.com/user-attachments/assets/bcb9e450-efa5-40fd-899f-3f2c37842704" />
-
-If you leave the "comment" field empty, the Menu will show the `Temp` variable value from "target" field (e.g. path to `C:\Temp`).
-
-You can put the path to ICO, CUR, ANI, EXE, DLL, CPL, SCR and other resource that contains icons. For example I chose the system icon "shutdown" from `shell32.dll`, however I could choose ICO from the "Icons" folder. You can create as many shortcuts as you like and customize each one.
-
-<img width="745" height="802" alt="recusrsive favorites" src="https://github.com/user-attachments/assets/3a969435-cfe1-48e1-b603-edf64dde2ffe" />
-
-If you have many shortcuts, you can give them names (e.g. "MyFavoritePath") that will not be visible in the Menu and arrange them in directories. Regardless of the directory structure of your favorite paths, QuickSwitch will display all `.lnk` files from all directories. 
-
-<img width="1369" height="778" alt="structure" src="https://github.com/user-attachments/assets/f9e2dd3c-3930-4f27-a826-e3fc86799cdc" />
-
-You can hide some shortcuts by changing or removing their extension. If there are a lot of shortcuts and you don't need them anymore, check `Settings > Reset > Delete favorite paths`. After pressing the `Enter` button, your shortcuts will be placed in the trash. You will be able to restore them before emptying the trash can.
+快捷方式的 `Comment` 可用来设置菜单名称，`Target` 或 `Start in` 用来指定路径。所有相关字段都支持[变量](#variables)。不再需要的快捷方式可以移除扩展名，或通过 `Settings > Reset > Delete favorite paths` 移到回收站。
 
 </details>
 
-#### Variables
-In the settings you can select the paths to the desired directories *(e.g. icons)*. You can use an absolute path *(C:\QuickSwitch\Icons)* or a path relative to the current QuickSwitch location *(Icons)* as the path. You can use variables in paths: [environment variables](https://learn.microsoft.com/en-us/windows/deployment/usmt/usmt-recognized-environment-variables); built-in [AutoHotkey variables](https://www.autohotkey.com/docs/v1/Variables.htm#BuiltIn); declared [QuickSwitch variables](/Lib/Values.ahk). Enclose the variables in percent signs `%`.
+#### 变量
 
-<details><summary>Examples</summary>
+<a name="variables"></a>
 
-```haml
+路径设置支持绝对路径、相对于 QuickSwitch 所在目录的相对路径、[Windows 环境变量](https://learn.microsoft.com/en-us/windows/deployment/usmt/usmt-recognized-environment-variables)、[AutoHotkey 内置变量](https://www.autohotkey.com/docs/v1/Variables.htm#BuiltIn)和 [QuickSwitch 变量](Lib/Values.ahk)。变量需要使用百分号包围，例如：
+
+```text
 Icons
 %AppData%\Icons
 %A_ScriptDir%\Icons
-```
-```rust
 %SYSTEM_PATH%\%IconsDir%\SubDir
-```  
-```ruby
 C:\%IconsDir%
 ```
 
- If you have enabled the `Settings > Theme > Show paths from clipboard`, all copied variables will also be expanded. For example, if you have [Cmder](https://github.com/cmderdev/cmder) or [ConEmu](https://github.com/Maximus5/ConEmu) installed you can copy the `%ConEmuDir%` text to always see the path `C:\Users\...\cmder\vendor\conemu-maximus5` in the Menu. For permanent use you can pin this path and it will be visible in the menu always (enable `Settings > Theme > Show pinned paths`).
- 
- <img width="616" height="683" alt="Clipboard" src="https://github.com/user-attachments/assets/80ea3b3d-9eec-4629-aa64-38b35a28ab92" />
+如果启用了“设置 > 外观 > 剪贴板目录”，剪贴板中的变量也会自动展开。
 
+## 快捷键
 
-</details>
+<a name="keyboard"></a>
 
-## Keyboard
-Each option and button in the settings has a corresponding key.
-Take a closer look: each name has an u̲n̲d̲e̲r̲l̲i̲n̲e̲d̲ l̲e̲t̲t̲e̲r̲. Press this letter on the keyboard to jump to the option. For example:
- _C̲ancel_ – `C`; _Path s̲eparator_  – `S`.
+设置中的选项和按钮通常带有一个下划线字母，按下该字母可以快速定位到对应选项。主要按键如下：
 
-Here is a short list of the main keys:
-- Path: `0-9`.
-- Auto switch: `A`
-- Black list: `B`
-- Settings: `S`
-- Hide menu: `Esc` / `click` anywhere
+- 路径：`0-9`
+- AutoSwitch：`A`
+- 黑名单：`B`
+- 设置：`S`
+- 隐藏菜单：`Esc` 或单击任意位置
 
-You can select keys or mouse buttons on `Settings > App` tab. You can even select the `CapsLock` or `Win` key in the settings or the middle mouse button to show the Menu. While the file dialog is open, keys such as `Space`, `Win`, `CapsLock` and so on will not work as usual so that you can use them. 
+在“设置 > 应用”中可以修改主快捷键、置顶路径按键和重启按键，也可以选择 `CapsLock`、`Win` 或鼠标中键。文件对话框打开时，`Space`、`Win`、`CapsLock` 等按键可能被 QuickSwitch 占用，这是为了支持对应的快捷操作。
 
-## Feedback
-
-**Feedback and bug reports:** please use the [fork issue tracker](https://github.com/xsnowfoxcode/QuickSwitch/issues/new/choose), or read the [contribution guide](CONTRIBUTING.md).
+## 在任意应用中强制打开菜单
 
 <a name="enforce-menu"></a>
-You can enforce the Menu in any application using the keyboard shortcut: `Ctrl+Shift+Win+0`. You can use this feature to change the path in any application, including supported file manager.
 
-<details><summary>Examples</summary>
+使用 `Ctrl+Shift+Win+0` 可以在任意应用中打开 QuickSwitch 菜单，包括支持的文件管理器。菜单会显示上一次打开文件对话框时收集的路径，并在下一次打开文件对话框前保持不变。第一次使用此功能时菜单可能为空；建议[固定常用路径](#menu-sections)以便始终显示。
 
-Open any file manager and press this shortcut. If you have tabs open in one file manager, you can open them in active manager using the Menu.
+例如，在 Notepad++ 中按下该快捷键，然后选择一个路径，Notepad++ 可以打开该目录中的文件。
 
-Another example: open Notepad++ and press this shortcut. Select any path from the Menu. Notepad++ will open all files from that path.
+## UNC 网络共享路径
 
-</details>
-  
-The menu will display the **paths obtained after the last opening of the file dialog** and will not change them until the next opening. The menu will be empty the first time it is opened. [Pin and save your favorite paths](#menu-sections) so you can always see them. 
+QuickSwitch `v1.9.1` 已修复 UNC 路径处理问题。以下路径的开头两个反斜杠会在整个流程中保留：
 
-## Limitations
+```text
+\\10.0.99.201\QuickSwitch-main
+```
 
-To ensure that the correct current paths always appear in the menu:
-- Disable localized folder names *(e.g. C:\Users, C:\Användare, ...).*                       
-- Periodically open the file manager you need *(a big number of windows makes it difficult to find the last open manager).*
-- Do not keep virtual folders open *(e.g. coll://, Desktop, Rapid Access, ...).*
+因此，来自文件管理器或剪贴板的网络共享目录可以正常完成路径校验、资源管理器 URL 解码和文件对话框自动跳转。使用网络共享目录时，当前 Windows 账户仍必须拥有相应的访问权限。
 
-QuickSwitch interacts with other applications, but the system may [restrict its access](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/user-account-control-allow-uiaccess-applications-to-prompt-for-elevation-without-using-the-secure-desktop). To avoid this, run QuickSwitch as an administrator or copy it to the `C:\Program Files` (just paste `%ProgramFiles%` to the addressbar). You can also [disable UAC](https://superuser.com/a/1773044) to avoid similar problems with all applications.
+## 使用限制与排查
 
-<details><summary>Details</summary>
+- 当前 Windows 账户必须能够访问目标本地目录或网络共享目录。
+- 虚拟目录、快速访问、桌面等位置可能无法被文件管理器接口稳定识别。
+- 建议定期打开需要使用的文件管理器；同时打开大量窗口时，程序较难判断最后使用的窗口。
+- QuickSwitch 与其他应用交互时会受到 Windows 权限隔离（UIPI）影响。若目标应用以管理员身份运行，QuickSwitch 也可能需要以管理员身份运行；两者尽量保持相同权限级别。
 
-QuickSwitch is written in AutoHotkey, which uses WinAPI. It sends messages to other file managers and receives information about the current file dialog and its contents. For these actions to work correctly, it is required that **the target process is not running as an administrator** or QuickSwitch is running with UI access (if it is not a compiled `.ahk` file) or as an administrator. The reason for this is [UIPI](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-10/security/threat-protection/security-policy-settings/user-account-control-allow-uiaccess-applications-to-prompt-for-elevation-without-using-the-secure-desktop):
+## 反馈与贡献
 
-> User Interface Privilege Isolation (UIPI) implements restrictions in the Windows subsystem that prevent lower-privilege applications from sending messages or installing hooks in higher-privilege processes. Higher-privilege applications are permitted to send messages to lower-privilege processes. UIPI doesn't interfere with or change the behavior of messages between applications at the same privilege (or integrity) level.
+请通过 [本 Fork 的 Issues](https://github.com/xsnowfoxcode/QuickSwitch/issues/new/choose) 报告问题或提出建议，也可以阅读[贡献指南](CONTRIBUTING.md)。提交 UNC 路径问题时，建议同时说明 Windows 版本、QuickSwitch 架构、目标应用和可复现的路径形式。
 
-You can also [disable UAC](https://superuser.com/a/1773044) and use low-level or powerful antivirus _(Crowdstrike, Eset Endpoint Security)_ for full control over running applications. Modern viruses [does not require admin privileges](https://security.stackexchange.com/a/183149) to interact with the system. However, they can obtain admin rights by [exploiting Windows vulnerability](https://community.spiceworks.com/t/how-does-malware-actually-gain-admin-access-to-a-pc-without-av/329471).
-</details>
-
-## Compiling	
+## 编译与维护
 
 <a href="https://deepwiki.com/JoyHak/QuickSwitch/11.1-build-system">
-<img src="https://deepwiki.com/badge.svg" alt="Build system"></a>
+<img src="https://deepwiki.com/badge.svg" alt="构建系统"></a>
 
-This app is written on  [Autohotkey language](https://en.m.wikipedia.org/wiki/AutoHotkey) and cannot be compiled. However, it can be built into a single file using a special script.
+QuickSwitch 使用 AutoHotkey v1 编写，可以通过 Ahk2Exe 编译为单文件 EXE。运行源码版本需要 AutoHotkey v1.1.37.02 Unicode；运行构建脚本 `Utilities/Build.ahk` 需要 AutoHotkey v2。Ahk2Exe 通常随 AutoHotkey 安装程序提供。
 
-<details><summary>Dependencies</summary>
+1. 克隆或[下载本仓库](https://github.com/xsnowfoxcode/QuickSwitch/archive/refs/heads/main.zip)。
+2. 使用 AutoHotkey v2 打开并运行 [`Utilities/Build.ahk`](Utilities/Build.ahk)。
+3. 根据需要设置构建脚本中的路径和选项；主源码文件为 `QuickSwitch-1.9.1.ahk`。
+4. 构建完成后，在 `dist` 目录检查 x64/x32 产物。
 
-Required applications:
-- `Autohotkey` interpreter (v1.1.37.02 Unicode and v2.0.19): https://www.autohotkey.com/download
-- `Ahk2Exe` builder to create EXE from AHK. It's included in AHK installer: `C:\Program Files\AutoHotkey\Compiler\Ahk2Exe.exe`</br>
-    - Can be downloaded from here: https://github.com/AutoHotkey/Ahk2Exe </br>
-    - Can be installed using the script: `C:\Program Files\AutoHotkey\UX\install-Ahk2Exe.ahk`</br>
-    *Directory depends on your autohotkey installation and can be found automatically. See below.*</br></br>
+完整的构建、测试、发布和上游同步流程请参阅[维护与发布说明](docs/维护与发布.md)。发布包提供 SHA-256 校验值；本项目目前没有代码签名证书，不声明官方签名。
 
-> Autohotkey v1.1.37.02 is an **outdated version.** If you want to start learning this language, learn `v2.0.19+`. QuickSwitch needs to be updated from `v1` to `v2`! 
+## 许可证与致谢
 
-Optional `7zG.exe` to create an archives with the required files: https://7-zip.org
+本项目以 GPL-3.0 许可证发布，完整条款见 [`LICENSE`](LICENSE)。这是由 `xsnowfoxcode` 维护的社区 Fork，原始项目为 [JoyHak/QuickSwitch](https://github.com/JoyHak/QuickSwitch)。本项目保留原作者及历史贡献者的版权和致谢信息，详细来源记录见[上游与许可证说明](docs/上游与许可证.md)。
 
-</details>
+QuickSwitch 的早期基础来自 [Gepruts](https://github.com/gepruts)，后续得到 DaWolfi、NotNull、Tuska、highend、Dalai、Horst、Arsiendle、Noticz、eddablin 和 FuPeiJiang 等贡献者在功能设计、文件管理器支持、测试和问题修复方面的帮助。感谢所有参与开发和测试的人。
 
-To build the application, clone or [download this repository](https://github.com/xsnowfoxcode/QuickSwitch/archive/refs/heads/main.zip). Open the [`.\Utilities\Build.ahk`](Utilities/Build.ahk) file and assign the necessary values to the variables. The fork-specific build and release procedure is documented in [维护与发布](docs/维护与发布.md).
-
-> [!NOTE]
-> The builder is designed for different AHK apps regardless of their interpreter. It will automatically select the interpreter based on the app name and its directory, so **you can use it in your AHK projects**. Unnecessary dependencies can be disabled by commenting out variables with paths to different applications.
-
-You can change application metadata, such as version and description by changing the [Ahk2Exe directives](https://www.autohotkey.com/docs/v1/misc/Ahk2ExeDirectives.htm#Bin)  in the main file with the name like `QuickSwitch-v1.8...ahk`. After completing the configuration process, run the `Build.ahk`.
-Directives allow the user to specify how app should be builded by [Ahk2Exe](https://www.autohotkey.com/docs/v1/Scripts.htm#ahk2exe). Some of the features are:
-- Ability to change the version information (such as the name, description, version...).
-- Ability to add resources to the compiled script.
-- Ability to tweak several miscellaneous aspects of compilation.
-- Ability to remove code sections from the compiled script and vice versa.
-
-## Credits
-
-Many people helped make QuickSwitch better! **Thank you all very much for your help and testing!** [You can become a valuable part of the project too](CONTRIBUTING.md).
-
-The history of QuickSwitch begins with [Gepruts](https://github.com/gepruts), who laid the foundation for switching between file dialogs and supported this project [until version 0.5](https://github.com/gepruts/QuickSwitch).
-
-After that, [DaWolfi, NotNull and Tuska](https://www.voidtools.com/forum/viewtopic.php?t=9881) added the first settings, color change options, and extended support for file managers.
-
-That's how the thread appeared on the Everything forum, and the version [v0.5dw9a](https://www.voidtools.com/forum/download/file.php?id=2235) was released, which I have continued to improved.
-
-The next version was [1.0](https://github.com/JoyHak/QuickSwitch/releases/tag/v1.0): source code was reduced and support for all XYplorer tabs was added. The function from [highend](https://www.xyplorer.com/xyfc/viewtopic.php?p=179654#p179654) helped with this.
-
-Up until version [1.5](https://github.com/JoyHak/QuickSwitch/releases/tag/1.5), active work was underway to optimize performance and display all tabs from all file managers. I had great difficulty with Total Commander and [Dalai](https://www.ghisler.ch/board/viewtopic.php?p=470238#p470238) suggested the algorithm for obtaining all tabs from Total Commander. [Horst](https://www.ghisler.ch/board/viewtopic.php?t=76254&start=105#p471017) patiently tested the algorithm over several days of work on it. Together, we laid the foundation for the Total Commander support that is still in use today.
-
-After the release, [Arsiendle](https://github.com/Arsiendle) sent a detailed report on the app's behavior. He helped identify minor and critical errors. His participation in testing helped to significantly improve the app.
-
-[Noticz](https://github.com/noticz) suggested algorithms for a dark theme, switching tabs in file managers using QuickSwitch, and extending the Black List for the [big 1.8 release](https://github.com/JoyHak/QuickSwitch/releases/tag/1.8). During the testing by [eddablin](https://github.com/eddablin) some issues was fixed.
-
-I also posted a message on the AutoHotkey discord server asking for help in fixing an ancient bug that caused the Menu to stuck on the screen, which has been known since 2007. [FuPeiJiang](https://github.com/FuPeiJiang) responded and helped resolve many issues with Menu. He helped make the main Menu stable and predictable.
-
-
-
+版本变更记录请参阅 [`CHANGELOG.md`](CHANGELOG.md)，安全问题请参阅 [`SECURITY.md`](SECURITY.md)。
